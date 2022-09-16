@@ -20,9 +20,17 @@ spec:
             - containerPort: 3306
           env:
             - name: MYSQL_ROOT_PASSWORD
-              value: "123456"
+              valueFrom:
+                secretKeyRef:
+                  name: db-mysql-secret
+                  key: MYSQL_ROOT_PASSWORD
+
             - name: MYSQL_DATABASE
-              value: ecommerce
+              valueFrom:
+                configMapKeyRef:
+                  name: mysql-configmap
+                  key: DATABASE_ECOMERCE
+
           volumeMounts:
             - mountPath: "/var/lib/mysql"
               name: mypd
